@@ -1,8 +1,3 @@
-# Decompiled with PyLingual (https://pylingual.io)
-# Internal filename: Gerador.py
-# Bytecode version: 3.11a7e (3495)
-# Source timestamp: 1970-01-01 00:00:00 UTC (0)
-
 import customtkinter as ctk
 from customtkinter import *
 import tkinter as tk
@@ -209,4 +204,6 @@ botao_submit.place(x=240, y=650)
 botao_clear = ctk.CTkButton(app, text='Limpar Informações', command=clear, width=150, height=30)
 botao_clear.place(x=600, y=650)
 app.mainloop()
-PyInstaller.__main__.run(['Gerador.py', '--onefile', '--windowed'])
+
+'''Não rodar esse comando no código, sim no CMD'''
+#PyInstaller.__main__.run(['Gerador.py', '--onefile', '--windowed'])
