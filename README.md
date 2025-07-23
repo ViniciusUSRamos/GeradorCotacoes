@@ -35,9 +35,9 @@ pip install FPDF
 
 ##### 3. Preencha os campos na interface e clique em "Gerar Orçamento"
 
-##### 4. Após preenchido, o programa vai gerar o orçamento em PDF no diretório onde o executável está localizado␣␣  
-␣␣  
+##### 4. Após preenchido, o programa vai gerar o orçamento em PDF no diretório onde o executável está localizado <br>
 
+---
 
 
 ### Para rodar o programa pelo arquivo executável (.exe), siga os passos abaixo:
