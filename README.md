@@ -25,8 +25,26 @@ Projeto desenvolvido para a empresa UJR Piscinas destinado à geração de cota�
     - Pillow é um fork do PIL (Python Imaging Library), usado para manipulação de imagens.
 
 ## ▶️ Como utilizar
-1. Instale as bibliotecas utilizadas no programa
+### Para rodar o código pela IDE, siga os seguintes passos:
+##### 1. Instale as bibliotecas utilizadas no programa
+```py
+pip install customtkinter
+pip install FPDF 
+```
+##### 2. Execute o código
 
-2. Execute o código
+##### 3. Preencha os campos na interface e clique em "Gerar Orçamento"
 
-3. Preencha os campos na interface e clique em "Gerar Orçamento"
+##### 4. Após preenchido, o programa vai gerar o orçamento em PDF no diretório onde o executável está localizado
+
+
+
+### Para rodar o programa pelo arquivo executável (.exe), siga os passos abaixo:
+
+##### 1. Faça download dos arquivos disponíveis neste repositório
+
+##### 2. Com os arquivos de imagem no mesmo diretório do executável, abra o aplicativo
+
+##### 3. Preencha os campos na interface e clique em "Gerar Orçamento"
+
+##### 4. Após preenchido, o programa vai gerar o orçamento em PDF no diretório onde o executável está localizado
