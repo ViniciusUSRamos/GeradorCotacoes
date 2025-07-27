@@ -1,6 +1,21 @@
 # GeradorCotacoes
 Projeto desenvolvido para a empresa UJR Piscinas destinado à geração de cotações personalizadas em formato PDF desenvolvido em Python.
 
+---
+## 🖥️ Interface do programa
+
+Tela inicial  
+
+![Tela inicial](imgs/TelaInicial.png)
+
+Exemplo dos dados preenchidos  
+
+![Tela com os dados preenchidos](imgs/TelaPreenchida.png)
+
+Orçamento do exemplo anterior  
+
+![Cotação Gerada](imgs/ImagemCotacao.png)
+
 
 ## ⚙️ Funcionalidades
 - Interface intuitiva para entrada de dados do cliente e da piscina.
