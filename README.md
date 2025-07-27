@@ -12,7 +12,7 @@ Exemplo dos dados preenchidos
 
 ![Tela com os dados preenchidos](imgs/TelaPreenchida.png)
 
-Orçamento do exemplo anterior  
+Orçamento gerado a partir do exemplo anterior  
 
 ![Cotação Gerada](imgs/ImagemCotacao.png)
 
