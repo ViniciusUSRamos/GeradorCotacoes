@@ -7,14 +7,19 @@ from fpdf import FPDF as pdf
 import os
 from PIL import Image, ImageTk
 #import PyInstaller.__main__
+
+PASTA_PROJETO = os.path.dirname(os.path.abspath(__file__))
+
+caminho_imagem = os.path.join(PASTA_PROJETO, 'plano_de_fundo.png')
+caminho_icone = os.path.join(PASTA_PROJETO, 'ujr_icon.ico')
+
 doc = pdf()
 doc.add_page()
 doc.set_font('Arial')
 doc.set_font_size(10)
-doc.image('plano_de_fundo.png', x=0, y=0, w=210, h=300)
+doc.image(caminho_imagem, x=0, y=0, w=210, h=300)
 
 
-'''
 def submit():
     # pega os valores
     nome_cliente = nome_cliente_entry.get()
@@ -27,7 +32,7 @@ def submit():
     motor = motor_entry.get()
     nome_piscina = nome_piscina_entry.get()
     quant_hidro = quant_hidro_entry.get()
-    quant_canos = quant_canos_entry.get()
+    mao_de_obra = mao_de_obra_entry.get()
     skimmer = skimmer_entry.get()
     lona = lona_entry.get()
     aquecimento = aquec_entry.get()
@@ -35,132 +40,7 @@ def submit():
     possui_LED = LED_entry.get()
     quantidade_LED = quant_LED.get()
     cor_do_LED = cor_LED.get()
-    valor_aquec = valor_aquecimento.get()
-
-    # verifica campos obrigatórios
-    campos = [nome_piscina, quant_canos, quant_hidro, nome_cliente, endereco, fone, cpf, cep, valor_piscina, frete, motor]
-    if any(not campo for campo in campos):
-        tk.messagebox.showerror('Erro', 'Preencha todos os campos!')
-        return
-        
-    #testando variáveis opcionais
-    if valor_aquec == None:
-        valor_aquec = 0
-    if quantidade_LED == None:
-        quantidade_LED = 0
-
-    # converte valores numéricos, com try para evitar crash
-    try:
-        valor_piscina = int(valor_piscina)
-        frete = int(frete)
-        valor_aquec = int(valor_aquec)
-        quant_hidro = int(quant_hidro)
-        quant_canos = int(quant_canos)
-        quantidade_LED = int(quantidade_LED) if possui_LED else 0
-    except ValueError:
-        tk.messagebox.showerror('Erro', 'Valores numéricos inválidos!')
-        return
-
-    doc = pdf()
-    doc.add_page()
-    doc.set_font('Arial', size=10)
-    doc.image('plano_de_fundo.png', x=0, y=0, w=210, h=300)
-
-    lista_opcionais = []
-    if possui_LED:
-        posicao_quant_led = 185.75
-        doc.text(155, posicao_quant_led, f'00{quantidade_LED}')
-        doc.text(30, posicao_quant_led, f'LED {cor_do_LED}')
-    if skimmer:
-        lista_opcionais.append('Skimmer')
-    if lona:
-        lista_opcionais.append('Lona de Proteção')
-    if aquecimento:
-        lista_opcionais.append('Aquecimento')
-    if cascata:
-        lista_opcionais.append('Cascata')
-
-    posicao_texto = 179.5
-    if possui_LED:
-        posicao_quant = 185.75
-        posicao_texto = posicao_quant
-    else:
-        posicao_quant = posicao_texto
-
-    for opcional in lista_opcionais:
-        posicao_texto += 6.25
-        doc.text(30, posicao_texto, opcional)
-        doc.text(155, posicao_texto, '001')
-
-    # Preenche os textos fixos e variáveis
-    doc.text(46, 85, nome_cliente)
-    doc.text(51.4, 91.5, endereco)
-    doc.text(153, 91.5, cep)
-    doc.text(50, 98.3, fone)
-    doc.text(43, 105, cpf)
-    doc.text(30, 135.6, f'Piscina {nome_piscina}')
-    doc.text(30, 142, f'Motor de {motor}')
-    doc.text(30, 148.4, 'Ponto de Hidromassagem')
-    doc.text(30, 154.8, 'Dispositivo de Aspiração')
-    doc.text(30, 161, 'Kit de acessórios de Limpeza Completo')
-    doc.text(30, 167.4, 'Filtro de Areia')
-    doc.text(30, 173.7, 'Espera para Cascata')
-    doc.text(30, 179.5, 'Registros e Conexões')
-
-    doc.text(155, 135.6, '001')
-    doc.text(155, 142, '001')
-    doc.text(155, 148.4, f'00{quant_hidro}')
-    doc.text(155, 154.8, '001')
-    doc.text(155, 161, '001')
-    doc.text(155, 167.4, '001')
-    doc.text(155, 173.7, '001')
-    doc.text(155, 179.5, f'0{quant_canos}')
-
-    doc.text(30, 250.57, 'Piscina')
-    doc.text(30, 257.2, 'Frete')
-    doc.text(30, 264, 'Aquecimento')
-
-    valor_total = valor_piscina + frete + valor_aquec
-
-    doc.text(149, 250.57, f'R$ {valor_piscina},00')
-    doc.text(150, 257.2, f'R$ {frete},00')
-    doc.text(150, 264, f'R$ {valor_aquec},00')
-    doc.text(149, 270.18, f'R$ {valor_total},00')
-
-    doc.output(f'Cotacao {nome_cliente}.pdf')
-    print('Arquivo criado com Sucesso!')
-    tk.messagebox.showinfo('Sucesso', 'Cotação Gerada')
-'''
-def submit():
-    # pega os valores
-    nome_cliente = nome_cliente_entry.get()
-    endereco = endereco_entry.get()
-    fone = fone_entry.get()
-    cpf = cpf_entry.get()
-    cep = cep_entry.get()
-    valor_piscina = valor_piscina_entry.get()
-    frete = frete_entry.get()
-    motor = motor_entry.get()
-    nome_piscina = nome_piscina_entry.get()
-    quant_hidro = quant_hidro_entry.get()
-    quant_canos = quant_canos_entry.get()
-    skimmer = skimmer_entry.get()
-    lona = lona_entry.get()
-    aquecimento = aquec_entry.get()
-    cascata = cascata_entry.get()
-    possui_LED = LED_entry.get()
-    quantidade_LED = quant_LED.get()
-    cor_do_LED = cor_LED.get()
-    valor_aquec = valor_aquecimento.get()
-
-    # verifica campos obrigatórios
-    '''
-    campos = [nome_piscina, quant_canos, quant_hidro, nome_cliente, endereco, fone, cpf, cep, valor_piscina, frete, motor]
-    if any(not campo for campo in campos):
-        tk.messagebox.showerror('Erro', 'Preencha todos os campos!')
-        return
-    '''
-    
+    valor_aquec = valor_aquecimento.get()  
         
     #testando variáveis opcionais preenchidas
     valor_aquec = 0 if not valor_aquec else valor_aquec
@@ -176,7 +56,7 @@ def submit():
         frete = int(frete)
         valor_aquec = int(valor_aquec)
         quant_hidro = int(quant_hidro)
-        quant_canos = int(quant_canos)
+        mao_de_obra = int(mao_de_obra)
         quantidade_LED = int(quantidade_LED) if possui_LED else 0
     except ValueError:
         tk.messagebox.showerror('Erro', 'Valores numéricos inválidos!')
@@ -185,35 +65,16 @@ def submit():
     doc = pdf()
     doc.add_page()
     doc.set_font('Arial', size=10)
-    doc.image('plano_de_fundo.png', x=0, y=0, w=210, h=300)
+    doc.image(caminho_imagem, x=0, y=0, w=210, h=300)
 
     if possui_LED:
-        posicao_quant_led = 146.75  # original era 130.75
+        posicao_quant_led = 140.5  # original era 130.75
         doc.text(155, posicao_quant_led, f'00{quantidade_LED}')
         doc.text(29.5, posicao_quant_led, f'LED {cor_do_LED}')  
     else:
-        posicao_quant_led = 146.75  # original era 130.75
+        posicao_quant_led = 140.5  # original era 130.75
         doc.text(155, posicao_quant_led, f'000')
         doc.text(29.5, posicao_quant_led, f'LED')  
-    
- 
-    '''   
-    lista_opcionais = []
-
-    posicao_texto = 141.5
-    if possui_LED:
-        posicao_quant = 147.75
-        posicao_texto = posicao_quant
-    else:
-        posicao_quant = posicao_texto
-
-    
-    for opcional in lista_opcionais:
-        posicao_texto += 6.25
-        #doc.text(30, posicao_texto, opcional)
-        doc.text(155, posicao_texto, 'SIM')
-    
-    '''
 
     pos_sim = 155
     pos_nao = 154.5
@@ -254,7 +115,6 @@ def submit():
     doc.text(29.5, 122.3, 'Kit de acessórios de Limpeza Completo')
     doc.text(29.5, 128.6, 'Filtro de Areia')
     doc.text(29.5, 134.8, 'Espera para Cascata')
-    doc.text(29.5, 140.5, 'Registros e Conexões')
 
     doc.text(155, 97.3, '001')
     doc.text(155, 103.6, '001')
@@ -263,7 +123,6 @@ def submit():
     doc.text(155, 122.3, '001')
     doc.text(155, 128.6, '001')
     doc.text(155, 134.8, '001')
-    doc.text(155, 140.5, f'0{quant_canos}')
 
 
     
@@ -271,12 +130,14 @@ def submit():
     doc.text(29.5, 237.07, 'Piscina')
     doc.text(29.5, 243.32, 'Frete')
     doc.text(29.5, 249.57, 'Aquecimento')
+    doc.text(29.5, 255.82, 'Mão de Obra e Instalação')
 
-    valor_total = valor_piscina + frete + valor_aquec
+    valor_total = valor_piscina + frete + valor_aquec + mao_de_obra
 
     doc.text(149, 237.07, f'R$ {valor_piscina},00')
     doc.text(150, 243.32, f'R$ {frete},00')
     doc.text(150, 249.57, f'R$ {valor_aquec},00')
+    doc.text(150, 255.82, f'R$ {mao_de_obra},00')
 
     #total
     doc.text(149, 261.35, f'R$ {valor_total},00')
@@ -299,7 +160,7 @@ def clear():
     motor_entry.delete(0, END)
     nome_piscina_entry.delete(0, END)
     quant_hidro_entry.delete(0, END)
-    quant_canos_entry.delete(0, END)
+    mao_de_obra_entry.delete(0, END)
     quant_LED.delete(0, END)
     cor_LED.set('Escolha a Cor do LED')
     LED_entry.deselect()
@@ -316,7 +177,7 @@ app = ctk.CTk()
 app.geometry('1000x750')
 app.title('UJR Piscinas - Gerador de Cotações')
 app.resizable(0, 0)
-app.iconbitmap('ujr_icon.ico')
+app.iconbitmap(caminho_icone)
 file_path = os.path.dirname(os.path.realpath(__file__))
 logo = ctk.CTkImage(Image.open(file_path + '/UJR Piscinas - Escuro Transparente.png'), size=(100, 100))
 show_logo = ctk.CTkLabel(master=app, image=logo, text=' ').place(x=450, y=40)
@@ -340,8 +201,8 @@ nome_piscina_entry = ctk.CTkEntry(app, width=250, height=30, corner_radius=10, p
 nome_piscina_entry.place(x=30, y=260)
 quant_hidro_entry = ctk.CTkEntry(app, width=190, height=30, corner_radius=10, placeholder_text='Quantidade de Hidromassagens')
 quant_hidro_entry.place(x=300, y=260)
-quant_canos_entry = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Quantidade de Canos e Conexões')
-quant_canos_entry.place(x=510, y=260)
+mao_de_obra_entry = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Valor Mão de Obra e Instalação')
+mao_de_obra_entry.place(x=510, y=260)
 valor_aquecimento = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Valor Aquecimento')
 valor_aquecimento.place(x=250, y=460)
 titulo_opc = ctk.CTkLabel(app, width=60, height=20, text='Opcionais:', font=('Arial Black', 20))
