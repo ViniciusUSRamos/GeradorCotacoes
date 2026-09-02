@@ -41,6 +41,7 @@ def submit():
     quantidade_LED = quant_LED.get()
     cor_do_LED = cor_LED.get()
     valor_aquec = valor_aquecimento.get()  
+    tratamento_sal = sal_entry.get()
         
     #testando variáveis opcionais preenchidas
     valor_aquec = 0 if not valor_aquec else valor_aquec
@@ -68,16 +69,18 @@ def submit():
     doc.image(caminho_imagem, x=0, y=0, w=210, h=300)
 
     if possui_LED:
-        posicao_quant_led = 140.5  # original era 130.75
+        posicao_quant_led = 140.5
         doc.text(155, posicao_quant_led, f'00{quantidade_LED}')
-        doc.text(29.5, posicao_quant_led, f'LED {cor_do_LED}')  
-    else:
-        posicao_quant_led = 140.5  # original era 130.75
-        doc.text(155, posicao_quant_led, f'000')
-        doc.text(29.5, posicao_quant_led, f'LED')  
+        doc.text(29.5, posicao_quant_led, f'LED {cor_do_LED}')
 
     pos_sim = 155
     pos_nao = 154.5
+
+    pos_sal = 220.95  
+    if tratamento_sal:
+        doc.text(pos_sim, pos_sal, 'SIM')
+    else:
+        doc.text(pos_nao, pos_sal, 'NÃO')
 
     if skimmer:
         doc.text(pos_sim, 189.7, 'SIM')
@@ -146,7 +149,6 @@ def submit():
 
 
     doc.output(f'Cotacao {nome_cliente}.pdf')
-    print('Arquivo criado com Sucesso!')
     tk.messagebox.showinfo('Sucesso', 'Cotação Gerada')
 
 def clear():
@@ -168,6 +170,7 @@ def clear():
     aquec_entry.deselect()
     cascata_entry.deselect()
     skimmer_entry.deselect()
+    sal_entry.deselect()
     valor_aquecimento.delete(0, END)
 
 
@@ -203,8 +206,8 @@ quant_hidro_entry = ctk.CTkEntry(app, width=190, height=30, corner_radius=10, pl
 quant_hidro_entry.place(x=300, y=260)
 mao_de_obra_entry = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Valor Mão de Obra e Instalação')
 mao_de_obra_entry.place(x=510, y=260)
-valor_aquecimento = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Valor Aquecimento')
-valor_aquecimento.place(x=250, y=460)
+valor_aquecimento = ctk.CTkEntry(app, width=150, height=30, corner_radius=10, placeholder_text='Valor Aquecimento')
+valor_aquecimento.place(x=170, y=460)
 titulo_opc = ctk.CTkLabel(app, width=60, height=20, text='Opcionais:', font=('Arial Black', 20))
 titulo_opc.place(x=30, y=335)
 skimmer_entry = ctk.CTkCheckBox(app, width=60, height=20, text='Skimmer')
@@ -216,12 +219,14 @@ aquec_entry.place(x=30, y=460)
 cascata_entry = ctk.CTkCheckBox(app, height=20, width=60, text='Cascata')
 cascata_entry.place(x=30, y=500)
 LED_entry = ctk.CTkCheckBox(app, height=20, width=60, text='LED')
-LED_entry.place(x=30, y=540)
+LED_entry.place(x=30, y=580)
 quant_LED = ctk.CTkEntry(app, width=150, height=30, corner_radius=10, placeholder_text='Quantidade de LED(s)')
-quant_LED.place(x=200, y=580)
+quant_LED.place(x=170, y=580)
 cor_LED = ctk.CTkOptionMenu(app, values=['Azul', 'Colorido'], height=28)
 cor_LED.set('Escolha a Cor do LED')
-cor_LED.place(x=30, y=580)
+cor_LED.place(x=340, y=580)
+sal_entry = ctk.CTkCheckBox(app, height=20, width=60, text='Tratamento com Sal')
+sal_entry.place(x=30, y=540)
 botao_submit = ctk.CTkButton(app, text='Gerar Orçamento', command=submit, width=150, height=30)
 botao_submit.place(x=240, y=650)
 botao_clear = ctk.CTkButton(app, text='Limpar Informações', command=clear, width=150, height=30)
