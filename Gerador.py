@@ -32,7 +32,7 @@ def submit():
     motor = motor_entry.get()
     nome_piscina = nome_piscina_entry.get()
     quant_hidro = quant_hidro_entry.get()
-    mao_de_obra = mao_de_obra_entry.get()
+    mao_de_obra_incluso = mao_de_obra_entry.get()
     skimmer = skimmer_entry.get()
     lona = lona_entry.get()
     aquecimento = aquec_entry.get()
@@ -57,7 +57,6 @@ def submit():
         frete = int(frete)
         valor_aquec = int(valor_aquec)
         quant_hidro = int(quant_hidro)
-        mao_de_obra = int(mao_de_obra)
         quantidade_LED = int(quantidade_LED) if possui_LED else 0
     except ValueError:
         tk.messagebox.showerror('Erro', 'Valores numéricos inválidos!')
@@ -76,32 +75,38 @@ def submit():
     pos_sim = 155
     pos_nao = 154.5
 
-    pos_sal = 220.95  
+    pos_sal = 214.70  
     if tratamento_sal:
         doc.text(pos_sim, pos_sal, 'SIM')
     else:
         doc.text(pos_nao, pos_sal, 'NÃO')
 
     if skimmer:
+        doc.text(pos_sim, 183.45, 'SIM')
+    else:
+        doc.text(pos_nao, 183.45, 'NÃO')
+    if lona:
         doc.text(pos_sim, 189.7, 'SIM')
     else:
         doc.text(pos_nao, 189.7, 'NÃO')
-    if lona:
+    if aquecimento:
         doc.text(pos_sim, 195.95, 'SIM')
     else:
         doc.text(pos_nao, 195.95, 'NÃO')
-    if aquecimento:
+    if cascata:
         doc.text(pos_sim, 202.2, 'SIM')
     else:
         doc.text(pos_nao, 202.2, 'NÃO')
-    if cascata:
+    if possui_LED:
         doc.text(pos_sim, 208.45, 'SIM')
     else:
         doc.text(pos_nao, 208.45, 'NÃO')
-    if possui_LED:
-        doc.text(pos_sim, 214.70, 'SIM')
+
+    pos_mao_de_obra = 220.95  # verificar alinhamento com o template
+    if mao_de_obra_incluso:
+        doc.text(pos_sim, pos_mao_de_obra, 'SIM')
     else:
-        doc.text(pos_nao, 214.70, 'NÃO')
+        doc.text(pos_nao, pos_mao_de_obra, 'NÃO')
 
 
 
@@ -133,14 +138,12 @@ def submit():
     doc.text(29.5, 237.07, 'Piscina')
     doc.text(29.5, 243.32, 'Frete')
     doc.text(29.5, 249.57, 'Aquecimento')
-    doc.text(29.5, 255.82, 'Mão de Obra e Instalação')
 
-    valor_total = valor_piscina + frete + valor_aquec + mao_de_obra
+    valor_total = valor_piscina + frete + valor_aquec
 
     doc.text(149, 237.07, f'R$ {valor_piscina},00')
     doc.text(150, 243.32, f'R$ {frete},00')
     doc.text(150, 249.57, f'R$ {valor_aquec},00')
-    doc.text(150, 255.82, f'R$ {mao_de_obra},00')
 
     #total
     doc.text(149, 261.35, f'R$ {valor_total},00')
@@ -162,7 +165,7 @@ def clear():
     motor_entry.delete(0, END)
     nome_piscina_entry.delete(0, END)
     quant_hidro_entry.delete(0, END)
-    mao_de_obra_entry.delete(0, END)
+    mao_de_obra_entry.deselect()
     quant_LED.delete(0, END)
     cor_LED.set('Escolha a Cor do LED')
     LED_entry.deselect()
@@ -204,8 +207,8 @@ nome_piscina_entry = ctk.CTkEntry(app, width=250, height=30, corner_radius=10, p
 nome_piscina_entry.place(x=30, y=260)
 quant_hidro_entry = ctk.CTkEntry(app, width=190, height=30, corner_radius=10, placeholder_text='Quantidade de Hidromassagens')
 quant_hidro_entry.place(x=300, y=260)
-mao_de_obra_entry = ctk.CTkEntry(app, width=220, height=30, corner_radius=10, placeholder_text='Valor Mão de Obra e Instalação')
-mao_de_obra_entry.place(x=510, y=260)
+mao_de_obra_entry = ctk.CTkCheckBox(app, height=20, width=60, text='Mão de Obra e Instalação')
+mao_de_obra_entry.place(x=30, y=580)
 valor_aquecimento = ctk.CTkEntry(app, width=150, height=30, corner_radius=10, placeholder_text='Valor Aquecimento')
 valor_aquecimento.place(x=170, y=460)
 titulo_opc = ctk.CTkLabel(app, width=60, height=20, text='Opcionais:', font=('Arial Black', 20))
@@ -219,18 +222,18 @@ aquec_entry.place(x=30, y=460)
 cascata_entry = ctk.CTkCheckBox(app, height=20, width=60, text='Cascata')
 cascata_entry.place(x=30, y=500)
 LED_entry = ctk.CTkCheckBox(app, height=20, width=60, text='LED')
-LED_entry.place(x=30, y=580)
+LED_entry.place(x=30, y=620)
 quant_LED = ctk.CTkEntry(app, width=150, height=30, corner_radius=10, placeholder_text='Quantidade de LED(s)')
-quant_LED.place(x=170, y=580)
+quant_LED.place(x=170, y=620)
 cor_LED = ctk.CTkOptionMenu(app, values=['Azul', 'Colorido'], height=28)
 cor_LED.set('Escolha a Cor do LED')
-cor_LED.place(x=340, y=580)
+cor_LED.place(x=340, y=620)
 sal_entry = ctk.CTkCheckBox(app, height=20, width=60, text='Tratamento com Sal')
 sal_entry.place(x=30, y=540)
 botao_submit = ctk.CTkButton(app, text='Gerar Orçamento', command=submit, width=150, height=30)
-botao_submit.place(x=240, y=650)
+botao_submit.place(x=240, y=690)
 botao_clear = ctk.CTkButton(app, text='Limpar Informações', command=clear, width=150, height=30)
-botao_clear.place(x=600, y=650)
+botao_clear.place(x=600, y=690)
 app.mainloop()
 
 '''Não rodar esse comando no código, sim no CMD'''
